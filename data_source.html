@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=qEruUaTH4N6oBxCZAZrczp2GDSeYh2bI"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+var data = genData(50);
+
+option = {
+    title : {
+        text: '',
+        subtext: '',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        type: 'scroll',
+        orient: 'vertical',
+        right: 10,
+        top: 20,
+        bottom: 20,
+        data: data.legendData,
+        show: false,
+        // selected: data.selected
+    },
+    series : [
+        {
+            name: '姓名',
+            type: 'pie',
+            radius : '70%',
+            center: ['50%', '50%'],
+            data: data.seriesData,
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+
+
+
+
+function genData(count) {
+    var nameList = [
+        '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章', '云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '俞', '任', '袁', '柳', '酆', '鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐', '于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚', '邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊', '纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危'
+    ];
+    var names = [
+                "邮政/邮编查询", "教育/留学信息", "教育/文档查询", "教育/学校信息", "民生/社保代缴", "金融/基金名称", "金融/基金类型", "金融/基金公司", 
+                "金融/金价查询", "出行/航班查询", "出行/机票预订", "出行/订汽车票", "出行/船票预订", "出行/地铁查询", "出行/公交查询", "出行/路线查询", 
+                "出行/订火车票", "出行/地图服务", "出行/交通限行", "出行/火车时刻", "出行/ETC服务", "出行/租车服务", "出行/油价查询", "地产/房价查询", 
+                "生活/快递查询", "生活/附近丽人", "生活/上门维修", "生活/上门洗衣", "生活/鲜花预订", "生活/上门汽车", "生活/上门搬家", "生活/附近亲子", 
+                "生活/附近婚庆", "生活/附近学习", "生活/附近宠物", "生活/证照制作", "生活/附近商场", "生活/附近家装", "生活/租房服务", "生活/家政服务", 
+                "生活/登报查询", "科技/相机查询", ]
+    var legendData = [];
+    var seriesData = [];
+    var selected = {};
+    for (var i = 0; i < names.length; i++) {
+        legendData.push(names[i]);
+        seriesData.push({
+            name: names[i],
+            value: Math.round(Math.random() * 100000)
+        });
+        selected[names[i]] = true;
+    }
+
+    return {
+        legendData: legendData,
+        seriesData: seriesData,
+        selected: selected
+    };
+
+    function makeWord(max, min) {
+        //var nameLen = Math.ceil(Math.random() * max + min);
+        //var name = [];
+        //for (var i = 0; i < nameLen; i++) {
+        //    name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
+        //}
+        //return names.join('');
+    }
+}
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
